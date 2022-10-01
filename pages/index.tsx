@@ -3,20 +3,53 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import SignSelect from '../components/SignSelect'
-import {useEffect, useState} from 'react'
-import {Box, Container} from '@mui/system'
+import {useEffect, useRef, useState} from 'react'
+import {Box} from '@mui/system'
 
 const Home: NextPage = () => {
-
   const [signId, setSignId]  = useState<string>('1')
   const [isPlaying, setPlaying]  = useState<boolean>(false)
   const [image, setImage]  = useState<string>('/backgrounds/GSFC_20171208_Archive_e001894_medium.jpeg')
+  const audioCtxRef = useRef<AudioContext>(null);
+  
+  useEffect(()=>{
+    audioCtxRef.current = new AudioContext({
+      sampleRate: 48000
+    });
+
+    
+
+    // audioCtxRef.current.sampleRate = rate;
+		//     let buf = audioCtxRef.createBuffer(2,rate,rate);
+		//     let dataL = buf.getChannelData(0);
+		//     let dataR = buf.getChannelData(1);
+		//     for(i=0;i<dataL.length;i++){
+		//       dataL[i] = Math.sin(i/rate*Math.PI*400)*0.5;
+		//       dataR[i] = Math.sin(i/rate*Math.PI*420)*0.5;
+		//     }
+		//     let src = context.createBufferSource();
+		//     src.buffer = buf;
+		//     src.connect(context.destination);
+		//     src.start();
+  },[])
 
   const onPlayClick = () => {
     if (isPlaying) {
       setPlaying(false)
     } else {
       setPlaying(true)
+
+      let buf = audioCtxRef.current.createBuffer(2,rate,rate);
+      let dataL = buf.getChannelData(0);
+      let dataR = buf.getChannelData(1);
+      for(i=0;i<dataL.length;i++){
+        dataL[i] = Math.sin(i/rate*Math.PI*400)*0.5;
+        dataR[i] = Math.sin(i/rate*Math.PI*420)*0.5;
+      }
+      let src = context.createBufferSource();
+      src.buffer = buf;
+      src.connect(context.destination);
+      src.start();
     }
   }
   
