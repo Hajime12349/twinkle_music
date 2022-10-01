@@ -1,9 +1,14 @@
-import {Button} from '@mui/material'
+import {Button, FormControl, MenuItem, Select} from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import SignSelect from '../components/SignSelect'
+import {useState} from 'react'
 
 const Home: NextPage = () => {
+
+  const [signId, setSignId]  = useState<string>('')
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +18,10 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Twinkle Music★</h1>
-        <Button variant="contained">Hello Universe</Button>
+        <FormControl fullWidth>
+          <SignSelect value={signId} onChange={(id) => setSignId(id)}></SignSelect>
+        </FormControl>
+        <Button variant='outlined'>再生</Button>
       </main>
     </div>
   )
