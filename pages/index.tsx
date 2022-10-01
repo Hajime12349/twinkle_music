@@ -1,51 +1,51 @@
-import {Button, FormControl, MenuItem, Select} from '@mui/material'
+import {Button, FormControl} from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import SignSelect from '../components/SignSelect'
-import {useEffect, useRef, useState} from 'react'
+import {useRef, useState} from 'react'
 import {Box} from '@mui/system'
-import {waveform} from '../src/waveform.ts'
+import {generate} from '../src/MusicGenerator'
+import {load} from '../src/Loader'
 
 const Home: NextPage = () => {
   const [signId, setSignId]  = useState<string>('1')
   const [isPlaying, setPlaying]  = useState<boolean>(false)
   const [image, setImage]  = useState<string>('/backgrounds/GSFC_20171208_Archive_e001894_medium.jpeg')
+  const [sourceNode, setSourceNode]  = useState<AudioBufferSourceNode|undefined>(undefined)
   const audioCtxRef = useRef<AudioContext>(null);
   
-  useEffect(()=>{
-    // @ts-ignore
-    audioCtxRef.current = new AudioContext({
-      sampleRate: 48000
-    });
-  },[])
-
   const onPlayClick = () => {
     if (isPlaying) {
       setPlaying(false)
+
+      // 鳴らす処理の停止
+      sourceNode && sourceNode.stop()
+
     } else {
       setPlaying(true)
-      
+      if (audioCtxRef.current === null) {
+        // @ts-ignore
+        audioCtxRef.current = new AudioContext({
+          sampleRate: 48000
+        });
+      }
       const context = audioCtxRef.current
       if (context === null) return
-      // @ts-ignore
-      let buf = audioCtxRef.current.createBuffer(1,context.sampleRate*3,context.sampleRate);
-      let data = buf.getChannelData(0);
-      for(let i=0;i<data.length;i++){
-				data[i] = waveform(i,context.sampleRate,400,2,0.3);
-      }
 
-      let src = context.createBufferSource();
-      src.buffer = buf;
-      src.connect(context.destination);
-      src.start()
+      // 星データと鳴らす処理
+      load("/csv/test.csv").then(stars => {
+        const buf = generate(context, stars)
+        let src = context.createBufferSource();
+        src.buffer = buf;
+        src.connect(context.destination);
+        src.loop = true
+        src.start()
+        setSourceNode(src)
+      })
     }
   }
   
-  useEffect(() => {
-
-  }, [signId])
-
 
   return (
     <div className={styles.container}>
