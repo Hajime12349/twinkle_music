@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import SignSelect from '../components/SignSelect'
 import {useEffect, useRef, useState} from 'react'
 import {Box} from '@mui/system'
+import {waveform} from '../src/waveform.ts'
 
 const Home: NextPage = () => {
   const [signId, setSignId]  = useState<string>('1')
@@ -28,12 +29,10 @@ const Home: NextPage = () => {
       const context = audioCtxRef.current
       if (context === null) return
       // @ts-ignore
-      let buf = audioCtxRef.current.createBuffer(2,context.sampleRate,context.sampleRate);
-      let dataL = buf.getChannelData(0);
-      let dataR = buf.getChannelData(1);
-      for(let i=0;i<dataL.length;i++){
-        dataL[i] = Math.sin(i/context.sampleRate*Math.PI*400)*0.5;
-        dataR[i] = Math.sin(i/context.sampleRate*Math.PI*420)*0.5;
+      let buf = audioCtxRef.current.createBuffer(1,context.sampleRate*3,context.sampleRate);
+      let data = buf.getChannelData(0);
+      for(let i=0;i<data.length;i++){
+				data[i] = waveform(i,context.sampleRate,400,2,0.3);
       }
       let src = context.createBufferSource();
       src.buffer = buf;
