@@ -9,7 +9,7 @@ import {generate} from '../src/MusicGenerator'
 import {load} from '../src/Loader'
 
 const Home: NextPage = () => {
-  const [signId, setSignId]  = useState<string>('1')
+  const [signId, setSignId]  = useState<string>('Cetus')
   const [isPlaying, setPlaying]  = useState<boolean>(false)
   const [image, setImage]  = useState<string|undefined>(undefined)
   const [sourceNode, setSourceNode]  = useState<AudioBufferSourceNode|undefined>(undefined)
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
       setImage(`/signs/${signId}.jpg`) 
 
       // 星データと鳴らす処理
-      load("/csv/test.csv").then(stars => {
+      load(`/csv/${signId}.csv`).then(stars => {
         const buf = generate(context, stars)
         let src = context.createBufferSource();
         src.buffer = buf;

@@ -16,7 +16,7 @@ const SignSelect = (props: Props) => {
         displayEmpty 
         disabled={props.disabled}
       >
-          <MenuItem value="1">くじら座 ミラ</MenuItem>
+          <MenuItem value="Cetus">くじら座 ミラ</MenuItem>
           <MenuItem value="2">ペルセウス座 アルゴル</MenuItem>
           <MenuItem value="3">さそり座 アンタレス</MenuItem>
           <MenuItem value="4">オリオン座 ベテルギウス</MenuItem>

@@ -1,0 +1,4 @@
+constellation,name,NNo,GCVS,J2000.0,Type,Max,MinI,MinII,Epoch,Year,Period,M-m/D,Spectrum,References,Otherdesig.,p.m.(as/yr),Epoch,Ident.,New,type,GCVS
+cetus,alpha,219001,alfCet,030216.77+040523.0,LB:,2.45,2.54,,,,,,M2III,06994BD,,-0.091,2000,,Hip,,alfCet
+cetus,delta,219004,delCet*,023928.96+001942.6,BCEP,4.05,4.1,,38338.4763,,0.16113668,,B2IV,08935BD,,0.011,2000,,Hip,,delCet
+cetus,Mira,219015,omiCet*,021920.79-025839.5,M,2,10.1,,44839,,331.96,38,M5e-M9e,100002,,-0.229,2000,,Hip,,omiCet
