@@ -13,24 +13,10 @@ const Home: NextPage = () => {
   const audioCtxRef = useRef<AudioContext>(null);
   
   useEffect(()=>{
+    // @ts-ignore
     audioCtxRef.current = new AudioContext({
       sampleRate: 48000
     });
-
-    
-
-    // audioCtxRef.current.sampleRate = rate;
-		//     let buf = audioCtxRef.createBuffer(2,rate,rate);
-		//     let dataL = buf.getChannelData(0);
-		//     let dataR = buf.getChannelData(1);
-		//     for(i=0;i<dataL.length;i++){
-		//       dataL[i] = Math.sin(i/rate*Math.PI*400)*0.5;
-		//       dataR[i] = Math.sin(i/rate*Math.PI*420)*0.5;
-		//     }
-		//     let src = context.createBufferSource();
-		//     src.buffer = buf;
-		//     src.connect(context.destination);
-		//     src.start();
   },[])
 
   const onPlayClick = () => {
@@ -39,22 +25,26 @@ const Home: NextPage = () => {
     } else {
       setPlaying(true)
 
-      let buf = audioCtxRef.current.createBuffer(2,rate,rate);
+      const context = audioCtxRef.current
+      if (context === null) return
+      // @ts-ignore
+      let buf = audioCtxRef.current.createBuffer(2,context.sampleRate,context.sampleRate);
       let dataL = buf.getChannelData(0);
       let dataR = buf.getChannelData(1);
-      for(i=0;i<dataL.length;i++){
-        dataL[i] = Math.sin(i/rate*Math.PI*400)*0.5;
-        dataR[i] = Math.sin(i/rate*Math.PI*420)*0.5;
+      for(let i=0;i<dataL.length;i++){
+        dataL[i] = Math.sin(i/context.sampleRate*Math.PI*400)*0.5;
+        dataR[i] = Math.sin(i/context.sampleRate*Math.PI*420)*0.5;
       }
       let src = context.createBufferSource();
       src.buffer = buf;
       src.connect(context.destination);
-      src.start();
+      src.loop = true
+      src.start()
     }
   }
   
   useEffect(() => {
-     
+
   }, [signId])
 
 
