@@ -14,7 +14,6 @@ const SignSelect = (props: Props) => {
         onChange={(e) => props.onChange && props.onChange(e.target.value)}
         displayEmpty 
       >
-          <MenuItem value=""><em>聴く星座を選択してください</em></MenuItem>
           <MenuItem value={1}>くじら座 ミラ</MenuItem>
           <MenuItem value={2}>ペルセウス座 アルゴル</MenuItem>
           <MenuItem value={3}>さそり座 アンタレス</MenuItem>
