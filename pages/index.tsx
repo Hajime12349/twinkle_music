@@ -14,16 +14,19 @@ const Home: NextPage = () => {
   const [image, setImage]  = useState<string|undefined>(undefined)
   const [sourceNode, setSourceNode]  = useState<AudioBufferSourceNode|undefined>(undefined)
   const audioCtxRef = useRef<AudioContext>(null);
-  
+
   const onPlayClick = () => {
+
     if (isPlaying) {
       setPlaying(false)
 
       // 鳴らす処理の停止
       sourceNode && sourceNode.stop()
+			sourceNode.isPlaying = false;
 
     } else {
       setPlaying(true)
+
       if (audioCtxRef.current === null) {
         // @ts-ignore
         audioCtxRef.current = new AudioContext({
@@ -38,14 +41,27 @@ const Home: NextPage = () => {
 
       // 星データと鳴らす処理
       load("/csv/test.csv").then(stars => {
-        const buf = generate(context, stars)
-        let src = context.createBufferSource();
-        src.buffer = buf;
-        src.connect(context.destination);
-        src.loop = true
-        src.start()
-        setSourceNode(src)
-      })
+				let delta = 0;
+				let next_buf = generate(delta,context.sampleRate,context, stars);
+				let play_ = function play(){
+					const buf = next_buf;
+					delta += context.sampleRate;
+					let src = context.createBufferSource();
+					src.buffer = buf;
+					src.connect(context.destination);
+					src.isPlaying = true;
+					src.onended = ()=>{
+						if(src.isPlaying){
+							play();
+						}
+					};
+					src.start()
+					setSourceNode(src)
+
+					next_buf = generate(delta,context.sampleRate,context,stars);
+				};
+				play_();
+      });
     }
   }
   
