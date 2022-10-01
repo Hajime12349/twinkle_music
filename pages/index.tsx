@@ -24,7 +24,7 @@ const Home: NextPage = () => {
       setPlaying(false)
     } else {
       setPlaying(true)
-
+      
       const context = audioCtxRef.current
       if (context === null) return
       // @ts-ignore
@@ -35,10 +35,10 @@ const Home: NextPage = () => {
         dataL[i] = Math.sin(i/context.sampleRate*Math.PI*400)*0.5;
         dataR[i] = Math.sin(i/context.sampleRate*Math.PI*420)*0.5;
       }
+
       let src = context.createBufferSource();
       src.buffer = buf;
       src.connect(context.destination);
-      src.loop = true
       src.start()
     }
   }
