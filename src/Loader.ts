@@ -19,9 +19,11 @@ export const load = async (url: string): Promise<Star[]> => {
           })
           .map((row) => {
             const power = row["Period"] as number
+            const period = 2 as number
             const freq = 400 as number
             const star: Star = {
               power,
+              period,
               freq,
             }
             return star
@@ -29,5 +31,20 @@ export const load = async (url: string): Promise<Star[]> => {
         resolve(stars)
       }
     });
+  });
+}
+
+export const load_mock = async (url: string): Promise<Star[]> => {
+  return [[0.7,1,400],[0.3,0.5,800],[0.3,7,200]]
+  .map((row) =>{
+    const power = row[0] as number
+    const period = row[1] as number
+    const freq = row[2] as number
+    const star: Star = {
+      power,
+      period,
+      freq,
+    }
+    return star
   });
 }
