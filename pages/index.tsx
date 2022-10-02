@@ -118,6 +118,12 @@ const Home: NextPage = () => {
 
       <Box className={styles.main} sx={{mx: 4}} >
           <h1 className={styles.title}>Twinkle Heartbeat★</h1>
+          <>
+            <Paper elevation={3} sx={{mx:2, my: 2, p: 1, color:"#bbbbbb"}}>
+              Variable stars are stars that change in brightness with time and can be divided into several types.<br />
+              Here in our space we can hear the music from their heartbeats.
+            </Paper> 
+          </>
           <FormControl fullWidth>
             <SignSelect value={signId} onChange={(id) => setSignId(id)} disabled={isPlaying}></SignSelect>
           </FormControl>
