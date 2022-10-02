@@ -18,9 +18,9 @@ export const load = async (url: string): Promise<Star[]> => {
             return row["Period"] !== ''
           })
           .map((row) => {
-            const power = row["Period"] as number
-            const period = 2 as number
-            const freq = 400 as number
+            const power = 0.4
+            const period = row["Period"] as number
+            const freq = row["Spectrum"] as number
             const star: Star = {
               power,
               period,
@@ -37,7 +37,7 @@ export const load = async (url: string): Promise<Star[]> => {
 export const load_mock = async (url: string): Promise<Star[]> => {
   return [[0.7,1,400],[0.3,0.5,800],[0.3,7,200]]
   .map((row) =>{
-    const power = row[0] as number
+    const power =  row[0] as number
     const period = row[1] as number
     const freq = row[2] as number
     const star: Star = {
