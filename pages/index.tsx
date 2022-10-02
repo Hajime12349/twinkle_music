@@ -22,7 +22,6 @@ const Home: NextPage = () => {
 
       // 鳴らす処理の停止
       sourceNode && sourceNode.stop()
-			sourceNode.isPlaying = false;
 
     } else {
       setPlaying(true)
@@ -49,9 +48,8 @@ const Home: NextPage = () => {
 					let src = context.createBufferSource();
 					src.buffer = buf;
 					src.connect(context.destination);
-					src.isPlaying = true;
 					src.onended = ()=>{
-						if(src.isPlaying){
+						if(isPlaying){
 							play();
 						}
 					};
