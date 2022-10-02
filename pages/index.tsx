@@ -6,8 +6,8 @@ import SignSelect from '../components/SignSelect'
 import {useEffect, useRef, useState} from 'react'
 import {Box} from '@mui/system'
 import {generate} from '../src/MusicGenerator'
-import {load} from '../src/Loader'
 import useInterval from 'use-interval'
+import {load,load_mock} from '../src/Loader'
 
 const Home: NextPage = () => {
   const [signId, setSignId]  = useState<string>('Cetus')
@@ -66,7 +66,7 @@ const Home: NextPage = () => {
       setImage(`/signs/${signId}.jpg`) 
 
       // 星データと鳴らす処理
-      load(`/csv/${signId}.csv`).then(stars => {
+      load_mock(`/csv/${signId}.csv`).then(stars => {
 				let delta = 0;
 				let next_buf = generate(delta,context.sampleRate,context, stars);
 				let play_ = function play(){
